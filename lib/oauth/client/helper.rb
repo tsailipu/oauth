@@ -31,14 +31,15 @@ module OAuth::Client
     end
 
     def oauth_parameters
-      {
+      params = {
         'oauth_consumer_key'     => options[:consumer].key,
-        'oauth_token'            => options[:token] ? options[:token].token : '',
         'oauth_signature_method' => options[:signature_method],
         'oauth_timestamp'        => timestamp,
         'oauth_nonce'            => nonce,
         'oauth_version'          => '1.0'
       }
+      params['oauth_token'] = options[:token].token if options[:token]
+      params
     end
 
     def signature(extra_options = {})
